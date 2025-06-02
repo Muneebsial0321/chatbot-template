@@ -12,12 +12,12 @@ const routes = [
     element: <Home /> 
   },
   { icon:<Person/>,
-    name: 'Users', 
-    path: '/users', 
+    name: 'login', 
+    path: '/login', 
     element: <Login /> 
   },
   { icon:<AttachEmail/>,
-    name: 'Attendence', 
+    name: 'register', 
     path: '/attendence', 
     element: <Register /> 
   },
