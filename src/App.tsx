@@ -1,9 +1,13 @@
+import { SnackbarProvider } from "./Context/Snackbar"
+import CustomRouter from "./Routes/index"
 
 function App() {
 
   return (
     <>
-      <h1>hello</h1>
+        <SnackbarProvider>
+          <CustomRouter />
+        </SnackbarProvider>
     </>
   )
 }
