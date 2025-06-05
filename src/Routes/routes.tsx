@@ -1,31 +1,21 @@
-import { AttachEmail, HomeFilled, Person, ReceiptSharp } from '@mui/icons-material';
 import Home from '../Pages/Home';
 import Login from '../Pages/Auth/Login';
-import Register from '../Pages/Auth/Register';
 import Settings from '../Pages/Settings';
+import Sidebar from '../Shared/SideBar';
 
-
-const routes = [
-  { icon:<HomeFilled/>,
-    name: 'Home', 
-    path: '/', 
-    element: <Home /> 
+export const routes = [
+  {
+    path: '/',
+    element: <Sidebar children={<Home />} />
   },
-  { icon:<Person/>,
-    name: 'login', 
-    path: '/login', 
-    element: <Login /> 
+  {
+    path: '/login',
+    element: <Sidebar children={<Login />} />
   },
-  { icon:<AttachEmail/>,
-    name: 'register', 
-    path: '/attendence', 
-    element: <Register /> 
-  },
-  { icon:<ReceiptSharp/>,
-    name: 'Invoice', 
-    path: '/invoice', 
-    element: <Settings /> 
+  {
+    path: '/settings',
+    element: <Sidebar children={<Settings />} />
   },
 ];
 
-export default routes;
+export default routes
