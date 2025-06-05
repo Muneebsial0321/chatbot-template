@@ -4,6 +4,7 @@ import { Box, IconButton, ListItemButton, Typography } from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { SideBarRoutes } from "../Routes/SideBar.routes";
 import { Link } from "react-router-dom";
+import { green } from "@mui/material/colors";
 
 interface SidebarMenuItemProps {
     active?: boolean;
@@ -18,12 +19,12 @@ const Sidebar = ({ children }: { children?: React.ReactNode }) => {
     return (
         <>
             <div className="flex">
-                <ProSidebar className="" collapsed={isCollapsed}>
-                    <Menu className="bg-white h-[100vh] border-2 border-[#dedede] ">
+                <ProSidebar className="bg-primary-darker" collapsed={isCollapsed}>
+                    <Menu className="bg-primary-darker h-[100vh] border-2 border-primary-ligher ">
 
                         <MenuItem
                             onClick={() => setIsCollapsed(!isCollapsed)}
-                            icon={isCollapsed ? <MenuOutlinedIcon className="text-black" /> : undefined}
+                            icon={isCollapsed ? <MenuOutlinedIcon className="text-white" /> : undefined}
                             style={{
                                 margin: " ",
                             }}
@@ -35,7 +36,7 @@ const Sidebar = ({ children }: { children?: React.ReactNode }) => {
                                     alignItems="center"
                                 >
                                     <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                                        <MenuOutlinedIcon className="text-black" />
+                                        <MenuOutlinedIcon className="text-white" />
                                     </IconButton>
                                 </Box>
                             )}
@@ -46,9 +47,9 @@ const Sidebar = ({ children }: { children?: React.ReactNode }) => {
                                 active={selected === "Dashboard"}
                                 style={{ color: colors.grey[100] }}
                                 onClick={() => setSelected("Dashboard")}
-                                icon={<HomeFilled className="text-black" />}
+                                icon={<HomeFilled className="text-white" />}
                             >
-                                <Typography className="text-black">Dashboard</Typography>
+                                <Typography className="text-white">Dashboard</Typography>
                             </MenuItem>
                         </Box> */}
                         {SideBarRoutes.map((e, i) => (
@@ -61,7 +62,7 @@ const Sidebar = ({ children }: { children?: React.ReactNode }) => {
                         ))}
                     </Menu>
                 </ProSidebar>
-                <div>{children}</div>
+                <div className="w-full h-full">{children}</div>
             </div>
         </>
     );
@@ -78,12 +79,14 @@ interface SidebarMenuItemProps {
 
 const SideBarMenuItem: React.FC<SidebarMenuItemProps> = ({ Icon, title, link }) => {
     return <ListItemButton className="p-0!">
-        <MenuItem
-            icon={Icon}
-            component={<Link to={link} />}
-        >
-            <Typography className="text-black">{title}</Typography>
-        </MenuItem>
+        <Link to={link} className="text-white pl-7 flex items-center w-full h-[3rem] hover:bg-black! transition-all duration-300">
+            {/* icon */}
+            {Icon}
+            <p className="ml-[24px]">
+                {title}
+            </p>
+        </Link>
+
     </ListItemButton>
 }
 export default Sidebar;
