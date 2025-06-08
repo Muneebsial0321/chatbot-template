@@ -1,8 +1,8 @@
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
-import { ButtonBase, IconButton, Tooltip } from '@mui/material'
-import { CopyAll, Share, Speaker, ThumbDown, ThumbsUpDown, ThumbUp, VolumeUpRounded } from '@mui/icons-material'
+import { ButtonBase, Tooltip } from '@mui/material'
+import { CopyAll, Share, ThumbDown, ThumbUp, VolumeUpRounded } from '@mui/icons-material'
 import { BotIcon } from '../../icons/Icons'
 const Bot = ({ response }: { response: string }) => (
     <div className='w-full mt-4'>

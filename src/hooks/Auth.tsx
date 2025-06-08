@@ -1,6 +1,6 @@
 
-import { login } from "../api/Auth.service"
-import { LoginSchema, type LoginSchemaType } from "../Schemas/Auth.schema"
+import { login, register } from "../api/Auth.service"
+import { LoginSchema, RegisterSchema, type LoginSchemaType, type RegisterSchemaType } from "../Schemas/Auth.schema"
 import { useHandleSubmitProxy } from "./ExecuteIfValid"
 
 export const useLogin = () => {
@@ -15,7 +15,18 @@ export const useLogin = () => {
     return { onSubmit }
 
 }
-export const useRegister = () => { }
+export const useRegister = () => {
+    const { handleSubmit } = useHandleSubmitProxy()
+    const onSubmit = async (payload: RegisterSchemaType) => {
+        await handleSubmit(
+            payload,
+            RegisterSchema,
+            register
+        )
+    }
+    return { onSubmit }
+
+}
 export const useGoogleAuth = () => { }
 export const useForgetPassword = () => { }
 export const useResetPassword = () => { }
