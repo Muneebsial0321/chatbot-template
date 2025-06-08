@@ -59,6 +59,15 @@ const Sidebar = ({ children }: { children?: React.ReactNode }) => {
                                 Icon={e.icon}
                             />
                         ))}
+
+                        {/* conversation item   */}
+                        {SideBarRoutes.map((e, i) => (
+                            <SideBarConversationItem
+                                key={i}
+                                title={e.name}
+                                link={e.path}
+                            />
+                        ))}
                     </Menu>
                 </ProSidebar>
                 <div className="w-full h-full">{children}</div>
@@ -82,6 +91,22 @@ const SideBarMenuItem: React.FC<SidebarMenuItemProps> = ({ Icon, title, link }) 
             {/* icon */}
             {Icon}
             <p className="ml-[27px]">
+                {title}
+            </p>
+        </Link>
+
+    </ListItemButton>
+}
+
+interface SidebarConversationItemProps {
+    title: string,
+    link: string,
+}
+const SideBarConversationItem: React.FC<SidebarConversationItemProps> = ({ title, link }) => {
+    return <ListItemButton className="p-0!">
+        <Link to={link} className="text-white pl-6.5 flex items-center w-full h-[3rem] hover:bg-black! transition-all duration-300">
+            {/* icon */}
+            <p className="ml-[51px]">
                 {title}
             </p>
         </Link>

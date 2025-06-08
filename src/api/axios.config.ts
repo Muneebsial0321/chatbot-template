@@ -3,8 +3,8 @@ import axios from 'axios';
 
 // Create Axios instance
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
-    withCredentials: true,
+    baseURL: 'http://localhost:5000',
+    // withCredentials: true,
 });
 
 // 🔐 Add Bearer token from localStorage

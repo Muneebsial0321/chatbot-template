@@ -2,19 +2,21 @@ import Bot from "./Bot";
 import User from "./User";
 
 interface IBotResponse {
-  user?: string;
+  user: string;
   bot: string;
+  isSteaming?: boolean
 }
 
-const BotResponse: React.FC<IBotResponse> = ({ user, bot }) => {
+const BotResponse: React.FC<IBotResponse> = ({ user, bot, isSteaming = false }) => {
   return (
     <div className="flex flex-col w-full">
       {/* User */}
       <User
-        query={"Whats is the capital of Pakistan"}
+        query={user}
       />
       {/* Bot */}
       <Bot
+        isStreaming={isSteaming}
         response={bot}
       />
     </div>

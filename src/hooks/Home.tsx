@@ -10,7 +10,9 @@ export const useCreateConversation = () => {
         await handleSubmit(
             payload,
             ConversationSchema,
-            postConversation
+            postConversation,
+            "Conversation was created Successfully",
+            "success"
         )
     }
     return { onSubmit }
@@ -25,10 +27,10 @@ export const useGetConversations = () => {
 }
 
 export const useGetConversationById = () => {
-    const { conversationId } = useParams()
+    const { id } = useParams()
     const { data, isLoading } = useQuery({
         queryKey: ["get-conversations"],
-        queryFn: () => getConversationById(Number(conversationId)!)
+        queryFn: () => getConversationById(Number(id)!)
     })
     return { data, isLoading }
 }

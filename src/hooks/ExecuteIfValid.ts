@@ -1,5 +1,6 @@
 import type { z, ZodObject, ZodRawShape } from "zod"
 import { useSnackbar } from "../Context/Snackbar"
+import type { AlertColor } from "@mui/material"
 
 /**
  * Executes a post function only if the provided payload passes Zod schema validation.
@@ -66,11 +67,15 @@ export const useHandleSubmitProxy = (
     const handleSubmit = async <T extends ZodRawShape>(
         payload: unknown,
         zodSchema: ZodObject<T>,
-        PostFunction: (payload: z.infer<ZodObject<T>>) => Promise<unknown>
+        PostFunction: (payload: z.infer<ZodObject<T>>) => Promise<unknown>,
+        snackbarMessage: string,
+        snackbarSeverity: AlertColor
     ) => {
         const hasPosted = await ExecuteIfValid(payload, zodSchema, PostFunction)
-        if (hasPosted) return showSnackbar("Success", "success")
-        return showSnackbar("Error", "error")
+        if (hasPosted) return showSnackbar(
+            snackbarMessage,
+            snackbarSeverity)
+
     }
     return { handleSubmit }
 
