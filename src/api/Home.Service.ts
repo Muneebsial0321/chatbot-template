@@ -12,6 +12,6 @@ export const getConversationById = async (conversationId: number) => {
 }
 
 export const getConversations = async () => {
-    const { data } = await api.get(`/conversation/`);
+    const { data } = await api.get(`/conversation/user`);
     return data
 }
