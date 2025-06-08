@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Sidebar as ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, ListItemButton, Typography } from "@mui/material";
+import { Box, IconButton, ListItemButton } from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { SideBarRoutes } from "../Routes/SideBar.routes";
 import { Link } from "react-router-dom";
-import { green } from "@mui/material/colors";
 
 interface SidebarMenuItemProps {
     active?: boolean;
@@ -79,10 +78,10 @@ interface SidebarMenuItemProps {
 
 const SideBarMenuItem: React.FC<SidebarMenuItemProps> = ({ Icon, title, link }) => {
     return <ListItemButton className="p-0!">
-        <Link to={link} className="text-white pl-7 flex items-center w-full h-[3rem] hover:bg-black! transition-all duration-300">
+        <Link to={link} className="text-white pl-6.5 flex items-center w-full h-[3rem] hover:bg-black! transition-all duration-300">
             {/* icon */}
             {Icon}
-            <p className="ml-[24px]">
+            <p className="ml-[27px]">
                 {title}
             </p>
         </Link>

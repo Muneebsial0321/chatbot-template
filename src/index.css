@@ -12,3 +12,20 @@ body{
   font-weight: 400;
   font-style: normal;
 }
+
+.sideBarMenuItem:hover{
+    background: linear-gradient(270deg,
+    black 18%,
+    rgba(255, 0, 0, 0)   92%
+  );
+}
+
+/* global.css or wherever you define custom styles */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
