@@ -1,8 +1,8 @@
 import BotResponse from "../../Components/Bot"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { HomeIntro } from "./HomeIntro"
 import { InputComp } from "./InputComp"
-import { useCreateConversation, } from "../../hooks/Home";
+import { useCreateConversation, useGetConversationById, } from "../../hooks/Home";
 import { useSearchParams } from "react-router-dom";
 
 interface IConversation {
@@ -14,14 +14,16 @@ interface IConversation {
 }
 const Home = () => {
   const [searchParams] = useSearchParams()
-  console.log({searchParams});
+  const { data: conversationsData} = useGetConversationById()
+  const id = searchParams.get("id")
   
   const { onSubmit } = useCreateConversation()
   const [conversations, setConversations] = useState<IConversation[]>([]);
+  const [conversationId, setConversationId] = useState<number | undefined>(Number(id));
 
   const handleStream = async (query: string) => {
 
-    // initalize empty conversation with user query
+ // initalize empty conversation with user query
     setConversations((prev) => [...prev, {
       query: query,
       botResponse: "",
@@ -33,7 +35,7 @@ const Home = () => {
     const eventSource = new EventSource(`http://localhost:5001/stream/json`);
     let streamText = "";
 
-    // Renender each word
+ // Renender each word
     eventSource.onmessage = async (event) => {
       try {
 
@@ -63,12 +65,14 @@ const Home = () => {
             botResponse: streamText,
           });
 
-          await onSubmit({
+         const submitConversation = await onSubmit({
+            conversationId,
             query,
             botResponse: streamText,
             title: query,
           })
-
+          console.log({submitConversation})
+          setConversationId(submitConversation.id)
           eventSource.close();
         }
 
@@ -77,7 +81,7 @@ const Home = () => {
       }
     };
 
-    // Finisih Streaming
+ // Finisih Streaming
     eventSource.onerror = (_) => {
       setConversations((prev) => prev.map((e, i) => (
         i == CURRENT_INDEX ? { ...e, isStreaming: false }
@@ -88,12 +92,22 @@ const Home = () => {
     };
   }
 
-  // useEffect(() => {
-  //   if (id) {
-  //     setConversationId(id)
-  //     setConversationId(data)
-  //   }
-  // }, [data, id])
+ // For Single conversation fetch 
+    useEffect(() => {
+    if (id) {
+      setConversationId(Number(id))
+      const formtedData:IConversation[] = conversationsData ? conversationsData.chats.map((e)=>({
+        query: e.query,
+        botResponse: e.botResponse,
+        title: e.title,
+        isStreaming: false
+      })) : []
+      setConversations(()=>([
+        ...formtedData
+      ]))
+      
+    }
+     }, [id,conversationsData])
 
   return (
     <div className="sm:w-[80%] w-[95%] mx-auto h-[100vh] pb-2 overflow-auto flex flex-col justify-center items-center">

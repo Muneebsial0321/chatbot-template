@@ -1,19 +1,25 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { getConversationById, getConversations, postConversation } from "../api/Home.Service"
 import { useHandleSubmitProxy } from "../hooks/ExecuteIfValid"
 import { ConversationSchema, type ConversationSchemaType } from "../Schemas/Conversations.schema"
-import { useParams } from "react-router-dom"
+import { useParams, useSearchParams } from "react-router-dom"
+import type { ConversationById } from "../Types/ConversationById.type"
 
 export const useCreateConversation = () => {
+    const queryClient = useQueryClient()
     const { handleSubmit } = useHandleSubmitProxy()
     const onSubmit = async (payload: ConversationSchemaType) => {
-        await handleSubmit(
+        const { data } = await handleSubmit(
             payload,
             ConversationSchema,
             postConversation,
             "Conversation was created Successfully",
             "success"
         )
+        queryClient.invalidateQueries({
+            queryKey: ["get-conversations"],
+        })
+        return data
     }
     return { onSubmit }
 }
@@ -27,11 +33,13 @@ export const useGetConversations = () => {
 }
 
 export const useGetConversationById = () => {
-    const { id } = useParams()
-    const { data, isLoading } = useQuery({
-        queryKey: ["get-conversations"],
+    const [searchParams] = useSearchParams()
+    const id = searchParams.get("id")
+    const { data, isLoading } = useQuery<ConversationById>({
+        queryKey: ["get-conversations", id],
         queryFn: () => getConversationById(Number(id)!)
     })
+    if (!id) return { data: null, isLoading: false }
     return { data, isLoading }
 }
 
