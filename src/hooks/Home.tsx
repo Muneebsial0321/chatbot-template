@@ -19,7 +19,7 @@ export const useCreateConversation = () => {
 }
 
 export const useGetConversations = () => {
-    const { data, isLoading } = useQuery({
+    const { data, isLoading } = useQuery<Array<{ id: number, title: string }>>({
         queryKey: ["get-conversations"],
         queryFn: getConversations
     })

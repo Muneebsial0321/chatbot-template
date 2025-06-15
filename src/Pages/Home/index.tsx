@@ -3,6 +3,7 @@ import { useState } from "react"
 import { HomeIntro } from "./HomeIntro"
 import { InputComp } from "./InputComp"
 import { useCreateConversation, } from "../../hooks/Home";
+import { useSearchParams } from "react-router-dom";
 
 interface IConversation {
   id?: number;
@@ -12,6 +13,9 @@ interface IConversation {
   isStreaming: boolean
 }
 const Home = () => {
+  const [searchParams] = useSearchParams()
+  console.log({searchParams});
+  
   const { onSubmit } = useCreateConversation()
   const [conversations, setConversations] = useState<IConversation[]>([]);
 

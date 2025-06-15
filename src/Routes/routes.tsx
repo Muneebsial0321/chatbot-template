@@ -1,7 +1,7 @@
 import Home from '../Pages/Home';
-import Login from '../Pages/Auth/Login';
 import Settings from '../Pages/Settings';
 import Sidebar from '../Shared/SideBar';
+import Auth from '../Pages/Auth';
 
 export const routes = [
   {
@@ -9,8 +9,8 @@ export const routes = [
     element: <Sidebar children={<Home />} />
   },
   {
-    path: '/login',
-    element: <Sidebar children={<Login />} />
+    path: '/auth',
+    element: <Auth />
   },
   {
     path: '/settings',

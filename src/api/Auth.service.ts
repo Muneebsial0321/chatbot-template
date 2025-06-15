@@ -8,6 +8,8 @@ export const login = async (payload: LoginSchemaType) => {
 
 export const register = async (payload: RegisterSchemaType) => {
     const { data } = await api.post("/auth/register", payload);
+    console.log({dfbdfbkdjnfkdjnfkdnf :data});
+    
     return data
 }
 export const useGoogleAuth = () => { }

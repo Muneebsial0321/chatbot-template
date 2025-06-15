@@ -1,155 +1,123 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Divider from '@mui/material/Divider';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import MuiCard from '@mui/material/Card';
-import { styled } from '@mui/material/styles';
-import { Facebook, Google } from '@mui/icons-material';
+import { Button } from "@mui/material";
+import { useState } from "react";
+import type { LoginSchemaType } from "../../../Schemas/Auth.schema";
+import { useLogin } from "../../../hooks/Auth";
 
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignSelf: 'center',
-  width: '100%',
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: 'auto',
-  [theme.breakpoints.up('sm')]: {
-    maxWidth: '450px',
-  },
-  boxShadow:
-    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-  ...theme.applyStyles('dark', {
-    boxShadow:
-      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
-  }),
-}));
+const Login = () => {
 
+    const [register, setRegister] = useState<LoginSchemaType>({
+        email: "",
+        password: "",
+    })
 
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setRegister({
+            ...register,
+            [e.target.name]: e.target.value
+        })
+    }
+    const { onSubmit } = useLogin()
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        onSubmit(register);
+    };
 
-export default function Login() {
+  return <form onSubmit={handleSubmit} className="space-y-4">
+    <div>
+      <label className="block text-sm font-medium text-primary-light_text mb-1">
+        Email
+      </label>
+      <input
+        type="email"
+        name="email"
+        onChange={onChange}
+        placeholder="your@email.com"
+        autoComplete="email"
+        required
+        className="w-full px-4 py-2 rounded-md border border-primary-border bg-primary-darker text-primary-light_text placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-lighter"
+      />
+    </div>
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+    <div>
+      <label className="block text-sm font-medium text-primary-light_text mb-1">
+        Password
+      </label>
+      <input
+        name="password"
+        type="password"
+        onChange={onChange}
+        placeholder="••••••"
+        autoComplete="current-password"
+        required
+        className="w-full px-4 py-2 rounded-md border border-primary-border bg-primary-darker text-primary-light_text placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-lighter"
+      />
+    </div>
 
+    <div className="flex items-center justify-between">
+      <div className="flex items-center">
+        <input
+          id="remember"
+          name="remember"
+          type="checkbox"
+          className="h-4 w-4 text-primary-lighter focus:ring-primary-lighter border-primary-border rounded"
+        />
+        <label htmlFor="remember" className="ml-2 block text-sm text-primary-light_text">
+          Remember me
+        </label>
+      </div>
+      <div className="text-sm">
+        <a href="#" className="font-medium text-primary-lighter hover:text-white">
+          Forgot password?
+        </a>
+      </div>
+    </div>
 
-  return (
-    <>
-      <CssBaseline enableColorScheme />
-      <Stack direction="column" justifyContent="space-between">
-        <Card variant="outlined">
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
-          >
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              gap: 2,
-            }}
-          >
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                id="email"
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                autoComplete="email"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <TextField
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-              />
-            </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-            >
-              Sign in
-            </Button>
-            <Link
-              component="button"
-              type="button"
-              variant="body2"
-              sx={{ alignSelf: 'center' }}
-            >
-              Forgot your password?
-            </Link>
-          </Box>
-          <Divider>or</Divider>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => alert('Sign in with Google')}
-              startIcon={<Google />}
-            >
-              Sign in with Google
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => alert('Sign in with Facebook')}
-              startIcon={<Facebook />}
-            >
-              Sign in with Facebook
-            </Button>
-            <Typography sx={{ textAlign: 'center' }}>
-              Don&apos;t have an account?{' '}
-              <Link
-                href="/material-ui/getting-started/templates/sign-in/"
-                variant="body2"
-                sx={{ alignSelf: 'center' }}
-              >
-                Sign up
-              </Link>
-            </Typography>
-          </Box>
-        </Card>
-      </Stack>
-    </>
-  );
-}
+    <Button
+      type="submit"
+      fullWidth
+      variant="contained"
+      className='text-primary-light_text bg-primary-lighter hover:bg-primary-lighter'
+      sx={{
+        mt: 2,
+        mb: 2,
+        bgcolor: 'primary.lighter',
+        '&:hover': {
+          bgcolor: 'primary.light',
+          opacity: 0.9,
+        },
+      }}
+    >
+      Sign in
+    </Button>
+
+    <div className="relative mt-6">
+      <div className="absolute inset-0 flex items-center">
+        <div className="w-full border-t border-primary-border"></div>
+      </div>
+      <div className="relative flex justify-center text-sm">
+        <span className="px-2 bg-primary-light_bg text-primary-light_text">
+          Or continue with
+        </span>
+      </div>
+    </div>
+
+    <div className="mt-6 grid grid-cols-2 gap-3">
+      <Button
+        fullWidth
+        variant="outlined"
+        className='text-primary-light_text border-primary-lighter'
+      >
+        Google
+      </Button>
+      <Button
+        fullWidth
+        variant="outlined"
+        className='text-primary-light_text border-primary-lighter'
+      >
+        Facebook
+      </Button>
+    </div>
+  </form>
+};
+
+export default Login;

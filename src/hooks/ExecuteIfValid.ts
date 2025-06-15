@@ -14,13 +14,17 @@ import type { AlertColor } from "@mui/material"
 const ExecuteIfValid = async  <T extends ZodRawShape>(
     payload: unknown,
     zodSchema: ZodObject<T>,
-    PostFunction: (payload: z.infer<ZodObject<T>>) => Promise<unknown>): Promise<boolean> => {
+    PostFunction: (payload: z.infer<ZodObject<T>>) => Promise<unknown>): Promise<{ data: any, success: boolean }> => {
     const result = zodSchema.safeParse(payload)
     if (result.success) {
-        await PostFunction(result.data)
-        return true
+        const data = await PostFunction(result.data)
+        if (data.error) {
+            return { data, success: false }
+        }
+        return { data, success: true }
     }
-    return false
+    return { data: null, success: false }
+
 }
 
 /**
@@ -72,10 +76,17 @@ export const useHandleSubmitProxy = (
         snackbarSeverity: AlertColor
     ) => {
         const hasPosted = await ExecuteIfValid(payload, zodSchema, PostFunction)
-        if (hasPosted) return showSnackbar(
-            snackbarMessage,
-            snackbarSeverity)
-
+        if (hasPosted.success) {
+            showSnackbar(
+                snackbarMessage,
+                snackbarSeverity)
+            return { data: hasPosted.data }
+        }
+        showSnackbar(
+            hasPosted.data.message || "Something went wrong",
+            "error"
+        )
+        return { data: hasPosted.data }
     }
     return { handleSubmit }
 

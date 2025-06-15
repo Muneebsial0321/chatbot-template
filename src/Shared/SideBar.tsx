@@ -4,6 +4,7 @@ import { Box, IconButton, ListItemButton } from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { SideBarRoutes } from "../Routes/SideBar.routes";
 import { Link } from "react-router-dom";
+import { useGetConversations } from "../hooks/Home";
 
 interface SidebarMenuItemProps {
     active?: boolean;
@@ -14,7 +15,7 @@ interface SidebarMenuItemProps {
 }
 const Sidebar = ({ children }: { children?: React.ReactNode }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
-
+    const { data: Conversations, isLoading: isConversationLoading } = useGetConversations()
     return (
         <>
             <div className="flex">
@@ -61,11 +62,11 @@ const Sidebar = ({ children }: { children?: React.ReactNode }) => {
                         ))}
 
                         {/* conversation item   */}
-                        {SideBarRoutes.map((e, i) => (
+                        {!isConversationLoading && Conversations?.map((e, i) => (
                             <SideBarConversationItem
                                 key={i}
-                                title={e.name}
-                                link={e.path}
+                                title={e.title}
+                                link={e.id.toString()}
                             />
                         ))}
                     </Menu>
@@ -104,7 +105,7 @@ interface SidebarConversationItemProps {
 }
 const SideBarConversationItem: React.FC<SidebarConversationItemProps> = ({ title, link }) => {
     return <ListItemButton className="p-0!">
-        <Link to={link} className="text-white pl-6.5 flex items-center w-full h-[3rem] hover:bg-black! transition-all duration-300">
+        <Link to={"/conversation/" + link} className="text-white pl-6.5 flex items-center w-full h-[3rem] hover:bg-black! transition-all duration-300">
             {/* icon */}
             <p className="ml-[51px]">
                 {title}
